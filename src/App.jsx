@@ -135,7 +135,7 @@ function App() {
           <p className="hero-sub">Always smile rasmalai cheeks 💗</p>
 
           <div className="age-counter">
-            <p className="age-label">You've been spreading magic for:</p>
+            <p className="age-label">Bro's living since:</p>
             <div className="age-stats-grid">
               <div className="stat-item"><span>{age.years}</span><small>Years</small></div>
               <div className="stat-item"><span>{age.months}</span><small>Months</small></div>
