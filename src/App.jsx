@@ -96,7 +96,7 @@ function App() {
           <h1 id="heroTitle">
             {birthdayReached ? (
               <>
-                Happy Birthday <span className="highlight">[Name]</span> 🎂
+                Happy Birthday <span className="highlight">SAAACHI</span> 🎂
               </>
             ) : (
               <>
@@ -105,7 +105,7 @@ function App() {
               </>
             )}
           </h1>
-          <p>Your personalized message goes here 💗</p>
+          <p>Always smile rasmalai cheeks 💗</p>
         </section>
 
         <Countdown
@@ -119,7 +119,7 @@ function App() {
               ? "💖 Ready for your surprise! 💖"
               : "✨ A special celebration awaits you at midnight... ✨"}
           </h2>
-          <p className="teaser-hint">Something magical is about to unfold 💫</p>
+          <p className="teaser-hint">Mastii aane wali hai 💫</p>
         </section>
 
         <button
@@ -128,7 +128,7 @@ function App() {
           disabled={!birthdayReached}
           onClick={() => goToPage(2)}
         >
-          🎀 Let's Celebrate
+         Click here budday girl!
         </button>
       </div>
 
@@ -170,8 +170,8 @@ function App() {
         </button>
         <Gallery isActive={currentPage === 4} />
         <section className="final">
-          <h2 className="final-message">💖 Forever Yours — [Your Name] 💖</h2>
-          <p className="final-subtitle">Your personalized closing message ✨</p>
+          <h2 className="final-message">💖 Forever Yours — Parthav shah 💖</h2>
+          <p className="final-subtitle">Have a great year ahead! ✨</p>
         </section>
       </div>
 
