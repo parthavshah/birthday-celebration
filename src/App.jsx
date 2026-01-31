@@ -22,33 +22,45 @@ function App() {
 
   const [showEffects, setShowEffects] = useState(false);
 
-  // --- AGE COUNTER LOGIC ---
+  // --- PRECISE 6-PART AGE LOGIC ---
   const calculateAge = () => {
     const birthDate = new Date("2006-02-01T21:00:00");
     const now = new Date();
-    
+
     let years = now.getFullYear() - birthDate.getFullYear();
-    let birthMonth = birthDate.getMonth();
-    let nowMonth = now.getMonth();
-    
-    // Adjust years if birthday hasn't happened yet this year
-    if (nowMonth < birthMonth || (nowMonth === birthMonth && now.getDate() < birthDate.getDate())) {
-      years--;
+    let months = now.getMonth() - birthDate.getMonth();
+    let days = now.getDate() - birthDate.getDate();
+
+    // Adjust for time of day (9:00 PM)
+    const birthTimeToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 21, 0, 0);
+    if (now < birthTimeToday && days <= 0) {
+      days--;
     }
 
-    // Get the date of the most recent birthday to calculate remaining time
-    const lastBirthday = new Date(birthDate);
-    lastBirthday.setFullYear(birthDate.getFullYear() + years);
-    
-    const diff = now - lastBirthday;
+    // Adjust months and years
+    if (months < 0 || (months === 0 && days < 0)) {
+      years--;
+      months += 12;
+    }
 
-    return {
-      years: years,
-      days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-      hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-      minutes: Math.floor((diff / (1000 * 60)) % 60),
-      seconds: Math.floor((diff / 1000) % 60),
-    };
+    if (days < 0) {
+      const prevMonthLastDay = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+      days += prevMonthLastDay;
+      months--;
+    }
+
+    // Secondary calculation for the exact milestone to get HH:MM:SS
+    const lastMilestone = new Date(now.getFullYear(), now.getMonth(), birthDate.getDate(), 21, 0, 0);
+    if (now < lastMilestone) {
+      lastMilestone.setMonth(lastMilestone.getMonth() - 1);
+    }
+    
+    const diffMs = now - lastMilestone;
+    const hours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diffMs / (1000 * 60)) % 60);
+    const seconds = Math.floor((diffMs / 1000) % 60);
+
+    return { years, months, days, hours, minutes, seconds };
   };
 
   const [age, setAge] = useState(calculateAge());
@@ -59,7 +71,6 @@ function App() {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-  // -------------------------
 
   const page1Ref = useRef(null);
   const page2Ref = useRef(null);
@@ -112,11 +123,7 @@ function App() {
       <MusicPlayer ref={musicPlayerRef} />
       <Hearts />
 
-      <div
-        ref={page1Ref}
-        className={`page ${currentPage === 1 ? "active" : ""}`}
-        style={{ visibility: currentPage === 1 ? "visible" : "hidden" }}
-      >
+      <div ref={page1Ref} className={`page ${currentPage === 1 ? "active" : ""}`} style={{ visibility: currentPage === 1 ? "visible" : "hidden" }}>
         <section className="hero">
           <h1 id="heroTitle">
             {birthdayReached ? (
@@ -125,13 +132,13 @@ function App() {
               <>Counting down to <span className="highlight">Saachi's</span> special day 🎂</>
             )}
           </h1>
-          <p>Always smile rasmalai cheeks 💗</p>
+          <p className="hero-sub">Always smile rasmalai cheeks 💗</p>
 
-          {/* AGE COUNTER UI */}
           <div className="age-counter">
             <p className="age-label">You've been spreading magic for:</p>
-            <div className="age-stats">
+            <div className="age-stats-grid">
               <div className="stat-item"><span>{age.years}</span><small>Years</small></div>
+              <div className="stat-item"><span>{age.months}</span><small>Months</small></div>
               <div className="stat-item"><span>{age.days}</span><small>Days</small></div>
               <div className="stat-item"><span>{age.hours}</span><small>Hrs</small></div>
               <div className="stat-item"><span>{age.minutes}</span><small>Mins</small></div>
@@ -140,53 +147,31 @@ function App() {
           </div>
         </section>
 
-        <Countdown
-          onBirthdayReached={handleBirthdayReached}
-          birthdayReached={birthdayReached}
-        />
+        <Countdown onBirthdayReached={handleBirthdayReached} birthdayReached={birthdayReached} />
 
         <section className="teaser">
           <h2 id="teaserHeading">
-            {birthdayReached
-              ? "💖 Ready for your surprise! 💖"
-              : "✨ A special celebration awaits you at midnight... ✨"}
+            {birthdayReached ? "💖 Ready for your surprise! 💖" : "✨ A special celebration awaits you at midnight... ✨"}
           </h2>
           <p className="teaser-hint">Mastii aane wali hai 💫</p>
         </section>
 
-        <button
-          id="surpriseBtn"
-          className="celebrate-btn"
-          disabled={!birthdayReached}
-          onClick={() => goToPage(2)}
-        >
+        <button id="surpriseBtn" className="celebrate-btn" disabled={!birthdayReached} onClick={() => goToPage(2)}>
           Click here budday girl!
         </button>
       </div>
 
-      <div
-        ref={page2Ref}
-        className={`page ${currentPage === 2 ? "active" : ""}`}
-        style={{ visibility: currentPage === 2 ? "visible" : "hidden" }}
-      >
+      <div ref={page2Ref} className={`page ${currentPage === 2 ? "active" : ""}`} style={{ visibility: currentPage === 2 ? "visible" : "hidden" }}>
         <CelebrationPage onComplete={() => goToPage(3)} musicPlayerRef={musicPlayerRef} />
       </div>
 
-      <div
-        ref={page3Ref}
-        className={`page ${currentPage === 3 ? "active" : ""}`}
-        style={{ visibility: currentPage === 3 ? "visible" : "hidden" }}
-      >
+      <div ref={page3Ref} className={`page ${currentPage === 3 ? "active" : ""}`} style={{ visibility: currentPage === 3 ? "visible" : "hidden" }}>
         <button className="back-btn" onClick={() => goToPage(2)}>← Back</button>
         <MessageCard isActive={currentPage === 3} />
         <button className="page-nav-btn" onClick={() => goToPage(4)}>📸 View Our Memories</button>
       </div>
 
-      <div
-        ref={page4Ref}
-        className={`page ${currentPage === 4 ? "active" : ""}`}
-        style={{ visibility: currentPage === 4 ? "visible" : "hidden" }}
-      >
+      <div ref={page4Ref} className={`page ${currentPage === 4 ? "active" : ""}`} style={{ visibility: currentPage === 4 ? "visible" : "hidden" }}>
         <button className="back-btn" onClick={() => goToPage(3)}>← Back</button>
         <Gallery isActive={currentPage === 4} />
         <section className="final">
