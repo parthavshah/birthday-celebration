@@ -13,19 +13,19 @@ function MessageCard({ isActive }) {
   const curtainHintRef = useRef(null);
   const messageContentRef = useRef(null);
 
-  const message = `[Recipient Name],
+  const message = `[Saachi],
 
-Your personalized birthday message goes here.
+Hello Bestie, oh sorry girlfriend, happiest birthday cutupiee.
 
-You can write multiple paragraphs to express your feelings,
-share memories, and make this special day even more memorable.
+You are one of the most important people in my life and i really really wish th best for you,
+I might not have said this very often but I am super proud and happy for you, I have not seen 
+any 19 year old kiddo being soo emotionally intelligent, self sustaining and aware. I will always
+be your biggest cheerleader! Thankyou soo much for existing saachi I really really like you a lot
+babyyyygirlllllllllll.
 
-This template supports multiple lines and formatting,
-so feel free to customize it completely to fit your style.
+Happy Birthdayyyyyy wohooo! 🎉
 
-Happy Birthday! 🎉
-
-— [Your Name]`;
+— Paaro`;
 
   // Handle page transitions
   useEffect(() => {
