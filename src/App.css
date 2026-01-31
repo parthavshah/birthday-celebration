@@ -540,3 +540,32 @@
     margin: 10px auto;
   }
 }
+.age-counter {
+  margin: 20px auto;
+  padding: 15px 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 95%; /* Make it wider for 5 items */
+  max-width: 500px;
+}
+
+.age-stats {
+  display: flex;
+  justify-content: space-between; /* Space them out evenly */
+  align-items: center;
+  gap: 5px;
+}
+
+.stat-item span {
+  font-size: 1.3rem; /* Slightly smaller to fit 5 items */
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 105, 180, 0.6);
+}
+
+.stat-item small {
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.7);
+}
